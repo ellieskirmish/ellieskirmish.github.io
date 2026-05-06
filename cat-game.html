@@ -26,15 +26,253 @@ text-align:center;
 padding-top:10px;
 }
 
-#cat,#friend{
-font-size:70px;
-transition:transform 0.5s;
-position:absolute;
-bottom:150px;
+.pet-container{
+position:relative;
+height:150px;
+display:flex;
+justify-content:space-around;
+align-items:center;
+margin:20px 0;
 }
 
-#cat{left:80px;}
-#friend{left:220px;}
+/* CAT PIXEL ART */
+.cat-pixel{
+width:60px;
+height:60px;
+position:relative;
+cursor:pointer;
+animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+@keyframes blink {
+  0%, 90%, 100% { clip-path: inset(0); }
+  95% { clip-path: inset(30% 0 30% 0); }
+}
+
+.cat-pixel.active {
+  animation: bounce 0.4s ease-in-out;
+}
+
+.cat-head{
+width:50px;
+height:45px;
+background:#ff9f5a;
+position:relative;
+margin:0 auto;
+}
+
+.cat-head::before{
+content:'';
+position:absolute;
+width:0;
+height:0;
+border-left:8px solid transparent;
+border-right:8px solid transparent;
+border-bottom:12px solid #ff9f5a;
+top:-10px;
+left:50%;
+transform:translateX(-50%);
+}
+
+.cat-ear{
+position:absolute;
+width:12px;
+height:18px;
+background:#ff9f5a;
+top:-5px;
+}
+
+.cat-ear.left{
+left:8px;
+border-radius:50% 0 0 0;
+}
+
+.cat-ear.right{
+right:8px;
+border-radius:0 50% 0 0;
+}
+
+.cat-ear::after{
+content:'';
+position:absolute;
+width:6px;
+height:10px;
+background:#ffc0a0;
+top:2px;
+left:50%;
+transform:translateX(-50%);
+}
+
+.cat-eye{
+position:absolute;
+width:6px;
+height:8px;
+background:#333;
+border-radius:50%;
+top:15px;
+animation: blink 4s infinite;
+}
+
+.cat-eye.left{
+left:10px;
+}
+
+.cat-eye.right{
+right:10px;
+}
+
+.cat-mouth{
+position:absolute;
+width:4px;
+height:4px;
+background:#333;
+border-radius:50%;
+bottom:8px;
+left:50%;
+transform:translateX(-50%);
+}
+
+.cat-mouth::before{
+content:'';
+position:absolute;
+width:1px;
+height:3px;
+background:#333;
+left:-3px;
+top:1px;
+}
+
+.cat-mouth::after{
+content:'';
+position:absolute;
+width:1px;
+height:3px;
+background:#333;
+right:-3px;
+top:1px;
+}
+
+.cat-body{
+width:40px;
+height:35px;
+background:#ff9f5a;
+margin:0 auto;
+border-radius:0 0 8px 8px;
+}
+
+.cat-tail{
+position:absolute;
+width:25px;
+height:8px;
+background:#ff9f5a;
+bottom:5px;
+right:-10px;
+border-radius:50%;
+animation: wag 2s ease-in-out infinite;
+transform-origin:left center;
+}
+
+@keyframes wag {
+  0%, 100% { transform: rotate(0deg); }
+  50% { transform: rotate(15deg); }
+}
+
+/* DOG PIXEL ART */
+.dog-pixel{
+width:60px;
+height:60px;
+position:relative;
+animation: float 3s ease-in-out infinite 0.5s;
+}
+
+.dog-head{
+width:45px;
+height:40px;
+background:#8b6f47;
+position:relative;
+margin:0 auto;
+border-radius:8px;
+}
+
+.dog-ear{
+position:absolute;
+width:10px;
+height:20px;
+background:#8b6f47;
+top:-5px;
+border-radius:50% 50% 0 0;
+}
+
+.dog-ear.left{
+left:5px;
+}
+
+.dog-ear.right{
+right:5px;
+}
+
+.dog-eye{
+position:absolute;
+width:5px;
+height:6px;
+background:#333;
+border-radius:50%;
+top:12px;
+}
+
+.dog-eye.left{
+left:8px;
+}
+
+.dog-eye.right{
+right:8px;
+}
+
+.dog-mouth{
+position:absolute;
+width:6px;
+height:3px;
+background:#333;
+bottom:8px;
+left:50%;
+transform:translateX(-50%);
+border-radius:50%;
+}
+
+.dog-body{
+width:35px;
+height:30px;
+background:#8b6f47;
+margin:0 auto;
+border-radius:0 0 6px 6px;
+}
+
+.dog-tail{
+position:absolute;
+width:20px;
+height:6px;
+background:#8b6f47;
+bottom:8px;
+right:-12px;
+border-radius:50%;
+animation: wag-dog 1.5s ease-in-out infinite;
+transform-origin:left center;
+}
+
+@keyframes wag-dog {
+  0%, 100% { transform: rotate(-10deg); }
+  50% { transform: rotate(20deg); }
+}
 
 #name{font-weight:bold;margin-top:5px;}
 #mood{font-size:13px;margin-top:5px;color:#444;}
@@ -56,7 +294,8 @@ justify-content:space-around;
 button,select,input{
 border:none;border-radius:10px;padding:6px;font-size:12px;
 }
-button{background:#ff8fab;color:white;cursor:pointer;}
+button{background:#ff8fab;color:white;cursor:pointer;transition:0.2s;}
+button:active{transform:scale(0.95);}
 
 #note{
 font-size:12px;
@@ -80,8 +319,31 @@ font-size: 12px;
 
 <button id="backButton" onclick="window.location.href='games.html'">← Back</button>
 
-<div id="cat">🐱</div>
-<div id="friend">🐶</div>
+<div class="pet-container">
+<div id="cat" class="cat-pixel">
+  <div class="cat-head">
+    <div class="cat-ear left"></div>
+    <div class="cat-ear right"></div>
+    <div class="cat-eye left"></div>
+    <div class="cat-eye right"></div>
+    <div class="cat-mouth"></div>
+  </div>
+  <div class="cat-body"></div>
+  <div class="cat-tail"></div>
+</div>
+
+<div id="friend" class="dog-pixel">
+  <div class="dog-head">
+    <div class="dog-ear left"></div>
+    <div class="dog-ear right"></div>
+    <div class="dog-eye left"></div>
+    <div class="dog-eye right"></div>
+    <div class="dog-mouth"></div>
+  </div>
+  <div class="dog-body"></div>
+  <div class="dog-tail"></div>
+</div>
+</div>
 
 <div id="name">Unnamed Cat</div>
 <div id="age">Age: 0 days</div>
@@ -110,8 +372,6 @@ const age=document.getElementById("age");
 const hungerFill=document.getElementById("hungerFill");
 const happyFill=document.getElementById("happyFill");
 
-const outfits=["🐱","🐱🎀","🐱👑","🐱🧢"];
-
 function load(){
 const data=localStorage.getItem("catSave");
 if(data){
@@ -136,10 +396,19 @@ hunger,happiness,outfit,ignored,ageDays,lastVisit:Date.now()
 }));
 }
 
-function getCatEmoji(){
-if(ageDays<3) return "🐱"; // kitten
-if(ageDays<7) return "🐱✨"; // teen
-return "🐱🧓"; // old
+function updateCatColor(){
+const catHead=cat.querySelector('.cat-head');
+const catBody=cat.querySelector('.cat-body');
+const catTail=cat.querySelector('.cat-tail');
+
+const colors=['#ff9f5a','#ffc0a0','#ffb366','#ff8c42','#c77dff','#e0aaff'];
+const color=colors[outfit % colors.length];
+
+catHead.style.background=color;
+catBody.style.background=color;
+catTail.style.background=color;
+
+document.querySelectorAll('.cat-ear').forEach(e=>e.style.background=color);
 }
 
 function clamp(){
@@ -153,34 +422,32 @@ happyFill.style.width=happiness+"%";
 
 age.textContent="Age: "+ageDays+" days";
 
-let m="Neutral 🐱";
+let m="Neutral 😸";
 if(hunger<30)m="Hungry 😿";
-if(happiness>70)m="Very Happy 😸";
+if(happiness>70)m="Very Happy 😻";
 
-m+=ignored>3?" (still remembers you...)":"";
+m+=ignored>3?" (waiting for you...)":"";
 mood.textContent="Mood: "+m;
 
-if(ignored>5){note.textContent="...your cat is growing older, still waiting softly.";}
+if(ignored>5){note.textContent="...your cat misses you...";}
 
 save();
 }
 
 function pop(){const c=new AudioContext();const o=c.createOscillator();const g=c.createGain();o.type="triangle";o.frequency.value=600;g.gain.value=0.08;o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+0.1);}
 
-function feedCat(){hunger+=25;happiness+=5;ignored=0;animate(cat);pop();clamp();update();}
-function playCat(){happiness+=20;hunger-=5;ignored=0;animate(cat);animate(friend);pop();clamp();update();}
-function toggleOutfit(){outfit=(outfit+1)%outfits.length;cat.textContent=outfits[outfit];save();}
+function feedCat(){hunger+=25;happiness+=5;ignored=0;animateBounce(cat);pop();clamp();update();}
+function playCat(){happiness+=20;hunger-=5;ignored=0;animateBounce(cat);animateBounce(friend);pop();clamp();update();}
+function toggleOutfit(){outfit=(outfit+1)%6;updateCatColor();save();}
 
-function animate(el){el.style.transform="scale(1.2)";setTimeout(()=>el.style.transform="scale(1)",300);}
+function animateBounce(el){el.classList.remove('active');void el.offsetWidth;el.classList.add('active');setTimeout(()=>el.classList.remove('active'),400);}
 
 setInterval(()=>{
 hunger-=1.5;
 happiness-=1;
 ignored++;
 
-cat.textContent=getCatEmoji();
-
-if(happiness>70){note.textContent="purr... it remembers your days together.";}
+if(happiness>70){note.textContent="purr... 💕";}
 
 clamp();update();
 },2000);
@@ -193,6 +460,7 @@ document.body.style.background=day?
 },8000);
 
 load();
+updateCatColor();
 update();
 </script>
 
