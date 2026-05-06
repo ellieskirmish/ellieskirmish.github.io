@@ -5,7 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ellie Skirmish | Portfolio</title>
     <style>
-        /* This is where the magic happens (CSS) */
+ @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+.floating-heart {
+    display: inline-block;
+    animation: float 3s ease-in-out infinite;
+    color: #ff69b4; /* Pink! */
+}       /* This is where the magic happens (CSS) */
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
             line-height: 1.6; 
