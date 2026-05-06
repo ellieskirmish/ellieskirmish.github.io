@@ -1,14 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>About Ellie Skirmish</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ellie Skirmish | Portfolio</title>
     <style>
-        body { font-family: sans-serif; text-align: center; padding: 50px; background-color: #0d1117; color: blue; }
-        h1 { color: #58a6ff; }
+        /* This is where the magic happens (CSS) */
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            line-height: 1.6; 
+            margin: 0;
+            background-color: #0d1117; /* GitHub Dark Theme Color */
+            color: #c9d1d9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px;
+        }
+        .container { max-width: 800px; }
+        h1 { color: #58a6ff; border-bottom: 1px solid #30363d; padding-bottom: 10px; }
+        .project-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        a { color: #58a6ff; text-decoration: none; }
+        a:hover { text-decoration: underline; }
     </style>
 </head>
 <body>
-    <h1>Welcome to my site!</h1>
-    <p>I'm ellieskirmish, and this is my corner of the internet.</p>
+    <div class="container">
+        <h1>Hi, I'm Ellie 👋</h1>
+        <p>Welcome to my personal site hosted on GitHub Pages!</p>
+        
+        <div class="project-card">
+            <h3>🚀 My Current Project</h3>
+            <p>I am currently learning how to deploy websites and manage repositories.</p>
+            <a href="https://github.com/ellieskirmish">View my GitHub Profile</a>
+        </div>
+    </div>
 </body>
 </html>
