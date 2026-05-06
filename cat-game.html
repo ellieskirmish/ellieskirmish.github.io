@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cute Cat Care 🐱💖</title>
+<style>
+body{
+margin:0;
+font-family:Arial,sans-serif;
+transition:background 1s;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+#game{
+width:370px;
+height:560px;
+background:rgba(255,255,255,0.92);
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.2);
+position:relative;
+overflow:hidden;
+text-align:center;
+padding-top:10px;
+}
+
+#cat,#friend{
+font-size:70px;
+transition:transform 0.5s;
+position:absolute;
+bottom:150px;
+}
+
+#cat{left:80px;}
+#friend{left:220px;}
+
+#name{font-weight:bold;margin-top:5px;}
+#mood{font-size:13px;margin-top:5px;color:#444;}
+#age{font-size:12px;color:#666;margin-top:2px;}
+
+.bar{width:80%;height:12px;background:#eee;border-radius:10px;margin:6px auto;overflow:hidden;}
+.fill{height:100%;transition:0.4s;}
+#hungerFill{background:#ff8fab;}
+#happyFill{background:#8fd3ff;}
+
+#actions{
+position:absolute;
+bottom:10px;
+width:100%;
+display:flex;
+justify-content:space-around;
+}
+
+button,select,input{
+border:none;border-radius:10px;padding:6px;font-size:12px;
+}
+button{background:#ff8fab;color:white;cursor:pointer;}
+
+#note{
+font-size:12px;
+color:#777;
+margin-top:3px;
+}
+
+#backButton {
+position: absolute;
+top: 10px;
+left: 10px;
+background: #58a6ff;
+padding: 8px 12px;
+font-size: 12px;
+}
+</style>
+</head>
+<body>
+
+<div id="game">
+
+<button id="backButton" onclick="window.location.href='games.html'">← Back</button>
+
+<div id="cat">🐱</div>
+<div id="friend">🐶</div>
+
+<div id="name">Unnamed Cat</div>
+<div id="age">Age: 0 days</div>
+<div id="mood">Mood: Neutral</div>
+<div id="note"></div>
+
+<div class="bar"><div class="fill" id="hungerFill"></div></div>
+<div class="bar"><div class="fill" id="happyFill"></div></div>
+
+<div id="actions">
+<button onclick="feedCat()">Feed 🍗</button>
+<button onclick="playCat()">Play 🎾</button>
+<button onclick="toggleOutfit()">Outfit 🎀</button>
+</div>
+
+</div>
+
+<script>
+let hunger=50,happiness=50,outfit=0,ignored=0,ageDays=0;
+
+const cat=document.getElementById("cat");
+const friend=document.getElementById("friend");
+const mood=document.getElementById("mood");
+const note=document.getElementById("note");
+const age=document.getElementById("age");
+const hungerFill=document.getElementById("hungerFill");
+const happyFill=document.getElementById("happyFill");
+
+const outfits=["🐱","🐱🎀","🐱👑","🐱🧢"];
+
+function load(){
+const data=localStorage.getItem("catSave");
+if(data){
+const s=JSON.parse(data);
+hunger=s.hunger||50;
+happiness=s.happiness||50;
+outfit=s.outfit||0;
+ignored=s.ignored||0;
+ageDays=s.ageDays||0;
+
+if(s.lastVisit){
+const diff=Date.now()-s.lastVisit;
+const days=Math.floor(diff/86400000);
+ageDays+=days;
+}
+}
+}
+
+function save(){
+localStorage.setItem("catSave",JSON.stringify({
+hunger,happiness,outfit,ignored,ageDays,lastVisit:Date.now()
+}));
+}
+
+function getCatEmoji(){
+if(ageDays<3) return "🐱"; // kitten
+if(ageDays<7) return "🐱✨"; // teen
+return "🐱🧓"; // old
+}
+
+function clamp(){
+hunger=Math.max(0,Math.min(100,hunger));
+happiness=Math.max(0,Math.min(100,happiness));
+}
+
+function update(){
+hungerFill.style.width=hunger+"%";
+happyFill.style.width=happiness+"%";
+
+age.textContent="Age: "+ageDays+" days";
+
+let m="Neutral 🐱";
+if(hunger<30)m="Hungry 😿";
+if(happiness>70)m="Very Happy 😸";
+
+m+=ignored>3?" (still remembers you...)":"";
+mood.textContent="Mood: "+m;
+
+if(ignored>5){note.textContent="...your cat is growing older, still waiting softly.";}
+
+save();
+}
+
+function pop(){const c=new AudioContext();const o=c.createOscillator();const g=c.createGain();o.type="triangle";o.frequency.value=600;g.gain.value=0.08;o.connect(g);g.connect(c.destination);o.start();o.stop(c.currentTime+0.1);}
+
+function feedCat(){hunger+=25;happiness+=5;ignored=0;animate(cat);pop();clamp();update();}
+function playCat(){happiness+=20;hunger-=5;ignored=0;animate(cat);animate(friend);pop();clamp();update();}
+function toggleOutfit(){outfit=(outfit+1)%outfits.length;cat.textContent=outfits[outfit];save();}
+
+function animate(el){el.style.transform="scale(1.2)";setTimeout(()=>el.style.transform="scale(1)",300);}
+
+setInterval(()=>{
+hunger-=1.5;
+happiness-=1;
+ignored++;
+
+cat.textContent=getCatEmoji();
+
+if(happiness>70){note.textContent="purr... it remembers your days together.";}
+
+clamp();update();
+},2000);
+
+let day=true;
+setInterval(()=>{
+day=!day;
+document.body.style.background=day?
+"linear-gradient(135deg,#ffd6e0,#cde7ff)":"linear-gradient(135deg,#1a1a2e,#3a1c2c)";
+},8000);
+
+load();
+update();
+</script>
+
+</body>
+</html>
